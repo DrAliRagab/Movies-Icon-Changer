@@ -40,6 +40,11 @@ to this..
   - and so on..
 
 
+## Downoad
+
+You can download the **latest releases** from [HERE](https://github.com/DrAliRagab/Movies-Icon-Changer/releases) 
+
+
 ## COPYRIGHTS
 
 I used [The .NET library for ImageMagick: Magick.NET](https://github.com/dlemstra/Magick.NET "Magick.NET") [![GitHub license](https://img.shields.io/badge/license-Apache%202-green.svg)](https://raw.githubusercontent.com/dlemstra/Magick.NET/master/License.txt) to Convert Images to Icons.
