@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata minClientVersion="2.5">
+    <id>Magick.NET-Q16-HDRI-AnyCPU</id>
+    <version>7.4.5</version>
+    <title>Magick.NET-Q16-HDRI-AnyCPU</title>
+    <authors>Dirk Lemstra</authors>
+    <owners>Dirk Lemstra</owners>
+    <licenseUrl>https://github.com/dlemstra/Magick.NET/blob/master/License.txt</licenseUrl>
+    <projectUrl>https://github.com/dlemstra/Magick.NET</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/dlemstra/Magick.NET/master/Tests/Magick.NET.Tests/Images/Magick.NET.icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ImageMagick is a powerful image manipulation library that supports over 100 major file formats (not including sub-formats). With Magick.NET you can use ImageMagick without having to install ImageMagick on your server or desktop. Visit https://github.com/dlemstra/Magick.NET/tree/master/Documentation before installing to help you decide the best version.</description>
+    <summary>A .NET API to the ImageMagick image-processing library for Desktop and Web.</summary>
+    <releaseNotes>https://github.com/dlemstra/Magick.NET/releases/tag/7.4.5.0</releaseNotes>
+    <copyright>Copyright 2013-2018 Dirk Lemstra</copyright>
+    <tags>ImageMagick Magick.NET Image Convert Resize Draw Effects</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework2.0" />
+      <group targetFramework=".NETFramework4.0" />
+      <group targetFramework="Unsupported0.0">
+        <dependency id="System.Collections.NonGeneric" version="4.3.0" />
+        <dependency id="System.Xml.XDocument" version="4.3.0" />
+        <dependency id="System.Xml.XmlDocument" version="4.3.0" />
+        <dependency id="System.Xml.XPath.XDocument" version="4.3.0" />
+        <dependency id="System.Xml.XPath.XmlDocument" version="4.3.0" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
