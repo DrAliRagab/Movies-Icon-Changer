@@ -224,16 +224,20 @@ Public Class Form1
         Dim dList As New ArrayList
 
         For Each filename As String In IO.Directory.GetFiles(directory, keyword, IO.SearchOption.AllDirectories)
-            dList.Add(IO.Path.GetFullPath(filename))
+            If Not filename.EndsWith("ico", StringComparison.OrdinalIgnoreCase) Then
+                If IsValidImageFile(filename) = True Then
+                    dList.Add(IO.Path.GetFullPath(filename))
+                End If
+            End If
+
         Next
 
-        Dim i As Integer = (100 / dList.Count) / 2
+        ''Dim i As Integer = (100 / dList.Count) / 2
 
         For i = 0 To dList.Count - 1
 
             Dim filename As String = dList(i)
-            If filename.Contains("poster") And _
-                Not filename.EndsWith("ico", StringComparison.OrdinalIgnoreCase) Then
+            If Not filename.EndsWith("ico", StringComparison.OrdinalIgnoreCase) Then
 
                 Dim Img1 As Image = Image.FromFile(filename)
                 Dim Img2 As Image = Image.FromFile(coveroverlay)
@@ -601,4 +605,18 @@ Public Class Form1
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
         System.Diagnostics.Process.Start("https://github.com/DrAliRagab/Movies-Icon-Changer")
     End Sub
+
+    Public Shared Function IsValidImageFile(imageFile As String) As Boolean
+        Try
+            ' the using is important to avoid stressing the garbage collector
+            Using test = System.Drawing.Image.FromFile(imageFile)
+                ' image has loaded and so is fine
+                Return True
+            End Using
+        Catch
+            ' technically some exceptions may not indicate a corrupt image, but this is unlikely to be an issue
+            Return False
+        End Try
+    End Function
+
 End Class
