@@ -25,9 +25,6 @@ Partial Class Form1
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
@@ -88,7 +85,7 @@ Partial Class Form1
         '
         Me.TextBox1.AccessibleName = "Movies folder path"
         Me.TextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.TextBox1.Location = New System.Drawing.Point(9, 25)
+        Me.TextBox1.Location = New System.Drawing.Point(12, 33)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(591, 20)
@@ -96,7 +93,7 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(606, 23)
+        Me.Button1.Location = New System.Drawing.Point(609, 31)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 2
@@ -106,43 +103,15 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 9)
+        Me.Label1.Location = New System.Drawing.Point(12, 14)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(107, 13)
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "Select movies folder:"
         '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(9, 62)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(111, 13)
-        Me.Label3.TabIndex = 8
-        Me.Label3.Text = "Select working folder:"
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(606, 76)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(75, 23)
-        Me.Button3.TabIndex = 7
-        Me.Button3.Text = "Browse"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'TextBox3
-        '
-        Me.TextBox3.AccessibleName = "Working folder path"
-        Me.TextBox3.BackColor = System.Drawing.SystemColors.ControlLightLight
-        Me.TextBox3.Location = New System.Drawing.Point(9, 78)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(591, 20)
-        Me.TextBox3.TabIndex = 6
-        '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(311, 124)
+        Me.Button4.Location = New System.Drawing.Point(311, 76)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(75, 23)
         Me.Button4.TabIndex = 9
@@ -155,7 +124,7 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(174, 124)
+        Me.ProgressBar1.Location = New System.Drawing.Point(174, 76)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(507, 23)
         Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee
@@ -193,7 +162,7 @@ Partial Class Form1
         'TextBox2
         '
         Me.TextBox2.AccessibleName = "Keyword"
-        Me.TextBox2.Location = New System.Drawing.Point(68, 126)
+        Me.TextBox2.Location = New System.Drawing.Point(68, 78)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(100, 20)
         Me.TextBox2.TabIndex = 13
@@ -202,7 +171,7 @@ Partial Class Form1
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(9, 129)
+        Me.Label4.Location = New System.Drawing.Point(9, 81)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(53, 13)
         Me.Label4.TabIndex = 12
@@ -211,7 +180,7 @@ Partial Class Form1
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.GroupBox1)
-        Me.Panel2.Location = New System.Drawing.Point(12, 162)
+        Me.Panel2.Location = New System.Drawing.Point(12, 118)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(672, 335)
         Me.Panel2.TabIndex = 14
@@ -563,7 +532,7 @@ Partial Class Form1
         '
         'Button8
         '
-        Me.Button8.Location = New System.Drawing.Point(598, 124)
+        Me.Button8.Location = New System.Drawing.Point(598, 76)
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(83, 23)
         Me.Button8.TabIndex = 15
@@ -585,7 +554,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(696, 508)
+        Me.ClientSize = New System.Drawing.Size(696, 464)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.Button8)
         Me.Controls.Add(Me.Panel1)
@@ -593,9 +562,6 @@ Partial Class Form1
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Button4)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Button3)
-        Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox1)
@@ -623,9 +589,6 @@ Partial Class Form1
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Button3 As System.Windows.Forms.Button
-    Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents Button4 As System.Windows.Forms.Button
     Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar

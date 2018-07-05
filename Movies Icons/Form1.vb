@@ -28,12 +28,6 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            TextBox3.Text = FolderBrowserDialog1.SelectedPath
-        End If
-    End Sub
-
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 
         'Check Variables
@@ -177,7 +171,6 @@ Public Class Form1
     End Function
 
     Public Shared Function CreateIcons(ByVal MovieFolder As String, _
-                                       ByVal WorkingFolder As String, _
                                        ByVal keyword As String, _
                                        ByVal coveroverlay As String, _
                                        ByVal ratingstar As String, _
@@ -194,32 +187,31 @@ Public Class Form1
                                        ByVal ratingXpoint As Integer, _
                                        ByVal ratingYpoint As Integer)
 
-        If (Not System.IO.Directory.Exists(WorkingFolder)) Then
-            Try
-                System.IO.Directory.CreateDirectory(WorkingFolder)
-                System.IO.Directory.CreateDirectory(WorkingFolder + "\posters")
-                System.IO.Directory.CreateDirectory(WorkingFolder + "\Icons")
+        'If (Not System.IO.Directory.Exists(WorkingFolder)) Then
+        '    Try
+        '        System.IO.Directory.CreateDirectory(WorkingFolder)
+        '        System.IO.Directory.CreateDirectory(WorkingFolder + "\posters")
+        '        System.IO.Directory.CreateDirectory(WorkingFolder + "\Icons")
 
-            Catch ex As Exception
-                MsgBox(ex.ToString)
-                Return Nothing
-                Exit Function
-            End Try
-        Else
-            'delete every thing in working folder
-            Try
-                My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\posters", FileIO.DeleteDirectoryOption.DeleteAllContents)
-                My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\Icons", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        '    Catch ex As Exception
+        '        MsgBox(ex.ToString)
+        '        Return Nothing
+        '        Exit Function
+        '    End Try
+        'Else
+        '    'delete every thing in working folder
+        '    Try
+        '        My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\posters", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        '        My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\Icons", FileIO.DeleteDirectoryOption.DeleteAllContents)
 
-            Catch ex As Exception
+        '    Catch ex As Exception
 
-            End Try
+        '    End Try
 
-            System.IO.Directory.CreateDirectory(WorkingFolder + "\posters")
-            System.IO.Directory.CreateDirectory(WorkingFolder + "\Icons")
-        End If
+        '    System.IO.Directory.CreateDirectory(WorkingFolder + "\posters")
+        '    System.IO.Directory.CreateDirectory(WorkingFolder + "\Icons")
+        'End If
 
-        'copy Posters to working directory
         Dim directory = MovieFolder
         Dim dList As New ArrayList
 
@@ -356,20 +348,20 @@ Public Class Form1
 
         Next
 
-        Try
-            My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\posters", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\Icons", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        'Try
+        '    My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\posters", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        '    My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\Icons", FileIO.DeleteDirectoryOption.DeleteAllContents)
 
-        Catch ex As Exception
+        'Catch ex As Exception
 
-        End Try
+        'End Try
 
         Return Nothing
     End Function
 
     Private Sub BackgroundWorker1_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
 
-        CreateIcons(TextBox1.Text, TextBox3.Text, TextBox2.Text, _coveroverlay, _
+        CreateIcons(TextBox1.Text, TextBox2.Text, _coveroverlay, _
                     _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight, _
                     _posterwidth, _posterheight, _posterXpoint, _posterYpoint, _
                     _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint)
@@ -410,7 +402,8 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Me.Height = 200
+        Me.Height = 153
+
         AssignValidation(Me.TextBox6, ValidationType.Only_Numbers)
         AssignValidation(Me.TextBox7, ValidationType.Only_Numbers)
         AssignValidation(Me.TextBox8, ValidationType.Only_Numbers)
@@ -422,7 +415,6 @@ Public Class Form1
         AssignValidation(Me.TextBox14, ValidationType.Only_Numbers)
         AssignValidation(Me.TextBox15, ValidationType.Only_Numbers)
 
-        TextBox3.Text = FileIO.SpecialDirectories.Temp + "\MIChanger"
         TextBox4.Text = System.IO.Directory.GetCurrentDirectory() + "\dvdbox.png"
         TextBox5.Text = System.IO.Directory.GetCurrentDirectory() + "\Plain.PNG"
 
@@ -577,12 +569,12 @@ Public Class Form1
         If Button8.Text = "Show settings" Then
             Button8.Text = "Hide settings"
             Panel2.Visible = True
-            Me.Height = 548
+            Me.Height = 505
 
         ElseIf Button8.Text = "Hide settings" Then
             Button8.Text = "Show settings"
             Panel2.Visible = False
-            Me.Height = 200
+            Me.Height = 153
 
         End If
 
