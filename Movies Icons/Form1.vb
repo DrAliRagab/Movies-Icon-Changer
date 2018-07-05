@@ -310,8 +310,11 @@ Public Class Form1
 
                 Using image As New MagickImage(bmp)
                     Dim Iconfile As String
-                    Iconfile = WorkingFolder + "\Icons\" + IO.Path.GetFileNameWithoutExtension(filename) + ".ico"
+                    Iconfile = IO.Path.GetDirectoryName(filename) + "\" + IO.Path.GetFileNameWithoutExtension(filename) + ".ico"
                     image.Settings.SetDefine(MagickFormat.Icon, "auto-resize", "256,128,64,48,32,16")
+                    If IO.File.Exists(Iconfile) Then
+                        File.SetAttributes(Iconfile, FileAttributes.Normal)
+                    End If
                     image.Write(Iconfile)
                     image.Dispose()
                     bmp.Dispose()
@@ -327,12 +330,6 @@ Public Class Form1
             Dim filename As String = dList(i)
             Dim FileInfo As New FileInfo(filename)
             Dim desFile As String = FileInfo.DirectoryName + "\" + IO.Path.GetFileNameWithoutExtension(filename) + ".ico"
-            Dim newIcon As String = WorkingFolder + "\Icons\" + IO.Path.GetFileNameWithoutExtension(filename) + ".ico"
-            If IO.File.Exists(desFile) Then
-                File.SetAttributes(desFile, FileAttributes.Normal)
-            End If
-
-            FileCopy(newIcon, desFile)
 
             Dim iniFile As String = ""
             iniFile = IO.Path.GetDirectoryName(desFile) + "\desktop.ini"
