@@ -3,6 +3,7 @@ Imports System.Drawing.Drawing2D
 Imports System.IO
 Imports System.Reflection
 Imports ImageMagick
+Imports System.Text
 
 Public Class Form1
 
@@ -161,7 +162,7 @@ Public Class Form1
                     line2 = "IconResource=" + IO.Path.GetFileName(path2) + ",0"
                     List(x) = line2
 
-                    IO.File.WriteAllLines(fName, List)
+                    IO.File.WriteAllLines(fName, List, Encoding.Default)
                     File.SetAttributes(fName, FileAttributes.System)
                     File.SetAttributes(fName, FileAttributes.Hidden)
                 End If
@@ -187,31 +188,6 @@ Public Class Form1
                                        ByVal ratingXpoint As Integer, _
                                        ByVal ratingYpoint As Integer)
 
-        'If (Not System.IO.Directory.Exists(WorkingFolder)) Then
-        '    Try
-        '        System.IO.Directory.CreateDirectory(WorkingFolder)
-        '        System.IO.Directory.CreateDirectory(WorkingFolder + "\posters")
-        '        System.IO.Directory.CreateDirectory(WorkingFolder + "\Icons")
-
-        '    Catch ex As Exception
-        '        MsgBox(ex.ToString)
-        '        Return Nothing
-        '        Exit Function
-        '    End Try
-        'Else
-        '    'delete every thing in working folder
-        '    Try
-        '        My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\posters", FileIO.DeleteDirectoryOption.DeleteAllContents)
-        '        My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\Icons", FileIO.DeleteDirectoryOption.DeleteAllContents)
-
-        '    Catch ex As Exception
-
-        '    End Try
-
-        '    System.IO.Directory.CreateDirectory(WorkingFolder + "\posters")
-        '    System.IO.Directory.CreateDirectory(WorkingFolder + "\Icons")
-        'End If
-
         Dim directory = MovieFolder
         Dim dList As New ArrayList
 
@@ -223,8 +199,6 @@ Public Class Form1
             End If
 
         Next
-
-        ''Dim i As Integer = (100 / dList.Count) / 2
 
         For i = 0 To dList.Count - 1
 
@@ -347,14 +321,6 @@ Public Class Form1
             File.SetAttributes(desFile, FileAttributes.Hidden)
 
         Next
-
-        'Try
-        '    My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\posters", FileIO.DeleteDirectoryOption.DeleteAllContents)
-        '    My.Computer.FileSystem.DeleteDirectory(WorkingFolder + "\Icons", FileIO.DeleteDirectoryOption.DeleteAllContents)
-
-        'Catch ex As Exception
-
-        'End Try
 
         Return Nothing
     End Function
