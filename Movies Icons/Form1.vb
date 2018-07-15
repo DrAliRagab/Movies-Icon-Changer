@@ -154,17 +154,21 @@ Public Class Form1
                         End Try
                     End If
 
-                    File.SetAttributes((path1.ToString + "\" + IO.Path.GetFileName(path2)), FileAttributes.System)
-                    File.SetAttributes((path1.ToString + "\" + IO.Path.GetFileName(path2)), FileAttributes.Hidden)
-                    File.SetAttributes((path1.ToString), FileAttributes.ReadOnly)
-                    File.SetAttributes(fName, Newattr)
+                    Try
+                        File.SetAttributes((path1.ToString + "\" + IO.Path.GetFileName(path2)), FileAttributes.System)
+                        File.SetAttributes((path1.ToString + "\" + IO.Path.GetFileName(path2)), FileAttributes.Hidden)
+                        File.SetAttributes((path1.ToString), FileAttributes.ReadOnly)
+                        File.SetAttributes(fName, Newattr)
+                        line2 = "IconResource=" + IO.Path.GetFileName(path2) + ",0"
+                        List(x) = line2
 
-                    line2 = "IconResource=" + IO.Path.GetFileName(path2) + ",0"
-                    List(x) = line2
+                        IO.File.WriteAllLines(fName, List, Encoding.Default)
+                        File.SetAttributes(fName, FileAttributes.System)
+                        File.SetAttributes(fName, FileAttributes.Hidden)
+                    Catch ex As Exception
 
-                    IO.File.WriteAllLines(fName, List, Encoding.Default)
-                    File.SetAttributes(fName, FileAttributes.System)
-                    File.SetAttributes(fName, FileAttributes.Hidden)
+                    End Try
+
                 End If
             Next
         Next
@@ -186,7 +190,8 @@ Public Class Form1
                                        ByVal ratingfont As Font, _
                                        ByVal ratingfontcolor As Color, _
                                        ByVal ratingXpoint As Integer, _
-                                       ByVal ratingYpoint As Integer)
+                                       ByVal ratingYpoint As Integer, _
+                                       ByVal skip As Boolean)
 
         Dim directory = MovieFolder
         Dim dList As New ArrayList
@@ -197,8 +202,19 @@ Public Class Form1
                     dList.Add(IO.Path.GetFullPath(filename))
                 End If
             End If
-
         Next
+
+        If skip = True Then
+            For Each filename As String In IO.Directory.GetFiles(directory, keyword, IO.SearchOption.AllDirectories)
+                If filename.EndsWith("ico", StringComparison.OrdinalIgnoreCase) Then
+                    For x As Integer = dList.Count - 1 To 0 Step -1
+                        If IO.Path.GetFileNameWithoutExtension(dList(x)) = IO.Path.GetFileNameWithoutExtension(filename) Then
+                            dList.RemoveAt(x)
+                        End If
+                    Next
+                End If
+            Next
+        End If
 
         For i = 0 To dList.Count - 1
 
@@ -327,14 +343,60 @@ Public Class Form1
 
     Private Sub BackgroundWorker1_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
 
+        Dim skip As Boolean = True
+
+        If CheckBox1.Checked = True Then
+            skip = True
+        Else
+            skip = False
+        End If
+
+
         CreateIcons(TextBox1.Text, TextBox2.Text, _coveroverlay, _
                     _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight, _
                     _posterwidth, _posterheight, _posterXpoint, _posterYpoint, _
-                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint)
+                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, skip)
+
+        System.Threading.Thread.Sleep(1000)
 
         FolderIcon(TextBox1.Text)
 
         System.Threading.Thread.Sleep(1000)
+
+        If CheckBox2.Checked = True Then
+
+            Dim directoryName As String = TextBox1.Text
+
+            For Each folder In Directory.GetDirectories(directoryName, ".actors", SearchOption.AllDirectories)
+                Directory.Delete(folder, True)
+            Next
+
+            For Each deleteFile In Directory.GetFiles(directoryName, "*.*", SearchOption.AllDirectories)
+
+                If Path.GetFileName(deleteFile) = "clearart.png" _
+                    Or Path.GetFileName(deleteFile) = "disc.png" _
+                    Or Path.GetFileName(deleteFile) = "logo.png" _
+                    Or Path.GetFileName(deleteFile) = "desktop.ini" _
+                    Or Path.GetFileName(deleteFile).Contains("-banner.") _
+                    Or Path.GetFileName(deleteFile).Contains("thumb.") _
+                    Or Path.GetFileName(deleteFile).Contains("banner.") _
+                    Or Path.GetFileName(deleteFile).Contains("clearlogo.") _
+                    Or Path.GetFileName(deleteFile).Contains("-fanart.") _
+                    Or Path.GetFileName(deleteFile).Contains("fanart.") _
+                    Or Path.GetFileName(deleteFile).Contains("-landscape.") _
+                    Or Path.GetFileName(deleteFile).Contains("-poster.") _
+                    Or Path.GetFileName(deleteFile).Contains("poster.") _
+                    Or Path.GetExtension(deleteFile) = (".nfo") _
+                    Or Path.GetExtension(deleteFile) = (".ico") _
+                    Then
+
+                    File.SetAttributes(deleteFile, FileAttributes.Hidden)
+                End If
+
+            Next
+
+        End If
+
     End Sub
 
     Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
@@ -535,7 +597,7 @@ Public Class Form1
         If Button8.Text = "Show settings" Then
             Button8.Text = "Hide settings"
             Panel2.Visible = True
-            Me.Height = 505
+            Me.Height = 574
 
         ElseIf Button8.Text = "Hide settings" Then
             Button8.Text = "Show settings"
