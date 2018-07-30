@@ -40,7 +40,7 @@ to this..
   - and so on..
 
 
-## Downoad
+## Download
 
 You can download the **latest releases** from [HERE](https://github.com/DrAliRagab/Movies-Icon-Changer/releases) 
 
