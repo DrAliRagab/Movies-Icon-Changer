@@ -367,30 +367,26 @@ Public Class Form1
 
             Dim directoryName As String = TextBox1.Text
 
-            For Each folder In Directory.GetDirectories(directoryName, ".actors", SearchOption.AllDirectories)
-                Directory.Delete(folder, True)
-            Next
+            For Each hFile In Directory.GetFiles(directoryName, "*.*", SearchOption.AllDirectories)
 
-            For Each deleteFile In Directory.GetFiles(directoryName, "*.*", SearchOption.AllDirectories)
-
-                If Path.GetFileName(deleteFile) = "clearart.png" _
-                    Or Path.GetFileName(deleteFile) = "disc.png" _
-                    Or Path.GetFileName(deleteFile) = "logo.png" _
-                    Or Path.GetFileName(deleteFile) = "desktop.ini" _
-                    Or Path.GetFileName(deleteFile).Contains("-banner.") _
-                    Or Path.GetFileName(deleteFile).Contains("thumb.") _
-                    Or Path.GetFileName(deleteFile).Contains("banner.") _
-                    Or Path.GetFileName(deleteFile).Contains("clearlogo.") _
-                    Or Path.GetFileName(deleteFile).Contains("-fanart.") _
-                    Or Path.GetFileName(deleteFile).Contains("fanart.") _
-                    Or Path.GetFileName(deleteFile).Contains("-landscape.") _
-                    Or Path.GetFileName(deleteFile).Contains("-poster.") _
-                    Or Path.GetFileName(deleteFile).Contains("poster.") _
-                    Or Path.GetExtension(deleteFile) = (".nfo") _
-                    Or Path.GetExtension(deleteFile) = (".ico") _
+                If Path.GetFileName(hFile) = "clearart.png" _
+                    Or Path.GetFileName(hFile) = "disc.png" _
+                    Or Path.GetFileName(hFile) = "logo.png" _
+                    Or Path.GetFileName(hFile) = "desktop.ini" _
+                    Or Path.GetFileName(hFile).Contains("-banner.") _
+                    Or Path.GetFileName(hFile).Contains("thumb.") _
+                    Or Path.GetFileName(hFile).Contains("banner.") _
+                    Or Path.GetFileName(hFile).Contains("clearlogo.") _
+                    Or Path.GetFileName(hFile).Contains("-fanart.") _
+                    Or Path.GetFileName(hFile).Contains("fanart.") _
+                    Or Path.GetFileName(hFile).Contains("-landscape.") _
+                    Or Path.GetFileName(hFile).Contains("-poster.") _
+                    Or Path.GetFileName(hFile).Contains("poster.") _
+                    Or Path.GetExtension(hFile) = (".nfo") _
+                    Or Path.GetExtension(hFile) = (".ico") _
                     Then
 
-                    File.SetAttributes(deleteFile, FileAttributes.Hidden)
+                    File.SetAttributes(hFile, FileAttributes.Hidden)
                 End If
 
             Next
