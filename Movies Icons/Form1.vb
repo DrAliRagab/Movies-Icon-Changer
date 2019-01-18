@@ -175,23 +175,24 @@ Public Class Form1
         Return Nothing
     End Function
 
-    Public Shared Function CreateIcons(ByVal MovieFolder As String, _
-                                       ByVal keyword As String, _
-                                       ByVal coveroverlay As String, _
-                                       ByVal ratingstar As String, _
-                                       ByVal ratingstarXpoint As Integer, _
-                                       ByVal ratingstarYpoint As Integer, _
-                                       ByVal ratingstarwidth As Integer, _
-                                       ByVal ratingstarheight As Integer, _
-                                       ByVal posterwidth As Integer, _
-                                       ByVal posterheight As Integer, _
-                                       ByVal posterXpoint As Integer, _
-                                       ByVal posterYpoint As Integer, _
-                                       ByVal ratingfont As Font, _
-                                       ByVal ratingfontcolor As Color, _
-                                       ByVal ratingXpoint As Integer, _
-                                       ByVal ratingYpoint As Integer, _
-                                       ByVal skip As Boolean)
+    Public Shared Function CreateIcons(ByVal MovieFolder As String,
+                                       ByVal keyword As String,
+                                       ByVal coveroverlay As String,
+                                       ByVal ratingstar As String,
+                                       ByVal ratingstarXpoint As Integer,
+                                       ByVal ratingstarYpoint As Integer,
+                                       ByVal ratingstarwidth As Integer,
+                                       ByVal ratingstarheight As Integer,
+                                       ByVal posterwidth As Integer,
+                                       ByVal posterheight As Integer,
+                                       ByVal posterXpoint As Integer,
+                                       ByVal posterYpoint As Integer,
+                                       ByVal ratingfont As Font,
+                                       ByVal ratingfontcolor As Color,
+                                       ByVal ratingXpoint As Integer,
+                                       ByVal ratingYpoint As Integer,
+                                       ByVal skip As Boolean,
+                                       ByVal cert As Boolean)
 
         Dim directory = MovieFolder
         Dim dList As New ArrayList
@@ -233,11 +234,12 @@ Public Class Form1
 
                 'Get Movie rating
                 Dim drawString As [String] = ""
-                For Each nfoFile As String In IO.Directory.GetFiles(IO.Path.GetDirectoryName(filename), "*.nfo", IO.SearchOption.TopDirectoryOnly)
+                Dim Certificate As [String] = ""
+                For Each nfoFile As String In IO.Directory.GetFiles(Path.GetDirectoryName(filename), "*.nfo", SearchOption.TopDirectoryOnly)
 
                     Dim reader As New StreamReader(nfoFile, System.Text.Encoding.Default)
+                    Dim reader2 As New StreamReader(nfoFile, System.Text.Encoding.Default)
                     Dim line As String = Nothing
-                    Dim lines As Integer = 0
 
                     While (reader.Peek() <> -1)
                         line = reader.ReadLine()
@@ -249,11 +251,28 @@ Public Class Form1
                                     numbers.Append(c)
                                 End If
                             Next
-                            'Display the output 
                             drawString = numbers.ToString
-                            lines = lines + 1
                         End If
                     End While
+
+                    While (reader2.Peek() <> -1)
+                        line = reader2.ReadLine()
+                        If line.Contains("<mpaa>") Then
+                            Dim input As String = line
+
+                            Dim sSource As String = line 'String that is being searched
+                            Dim sDelimStart As String = "<mpaa>" 'First delimiting word
+                            Dim sDelimEnd As String = "</mpaa>" 'Second delimiting word
+                            Dim nIndexStart As Integer = sSource.IndexOf(sDelimStart) 'Find the first occurrence of f1
+                            Dim nIndexEnd As Integer = sSource.IndexOf(sDelimEnd) 'Find the first occurrence of f2
+
+                            If nIndexStart > -1 AndAlso nIndexEnd > -1 Then '-1 means the word was not found.
+                                Dim res As String = Strings.Mid(sSource, nIndexStart + sDelimStart.Length + 1, nIndexEnd - nIndexStart - sDelimStart.Length) 'Crop the text between
+                                Certificate = res
+                            End If
+                        End If
+                    End While
+
                 Next
 
                 ' Create font and brush.
@@ -269,40 +288,48 @@ Public Class Form1
                 Dim drawRect As New RectangleF(x, y, width, height)
 
                 ' Draw rectangle to screen.
-                ' Dim blackPen As New Pen(Color.Black)
-                ' g.DrawRectangle(blackPen, x, y, width, height)
+                'Dim blackPen As New Pen(Color.Black)
+                'g.DrawRectangle(blackPen, x, y, width, height)
 
                 ' Set format of string.
-                Dim drawFormat As New StringFormat
-                drawFormat.Alignment = StringAlignment.Center
+                Dim drawFormat As New StringFormat With {
+                    .Alignment = StringAlignment.Center
+                }
 
                 ' Draw Icon.
 
-                If drawString = "" Then
-                    g.DrawImage(Img1, posterXpoint, posterYpoint)
-                    g.DrawImage(Img2, 0, 0)
-                    'g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
-                    g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
-                Else
-                    g.DrawImage(Img1, posterXpoint, posterYpoint)
-                    g.DrawImage(Img2, 0, 0)
-                    g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
-                    g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
+                g.DrawImage(Img1, posterXpoint, posterYpoint)
+
+                ' Draw rectangle to screen.
+                Dim recBrush As New SolidBrush(Color.Navy)
+                Dim recdrawRect As New RectangleF(170, 755, 310, 120)
+                Dim recdrawBrush As New SolidBrush(Color.WhiteSmoke)
+                Dim recdrawFont As New Font("Arial", 48)
+
+                If cert = True Then
+                    g.FillRectangle(recBrush, 198, 750, 240, 80)
+                    g.DrawString(Certificate, recdrawFont, recdrawBrush, recdrawRect, drawFormat)
+
                 End If
+
+                g.DrawImage(Img2, 0, 0)
+                g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
+                g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
 
                 Using image As New MagickImage(bmp)
                     Dim Iconfile As String
-                    Iconfile = IO.Path.GetDirectoryName(filename) + "\" + IO.Path.GetFileNameWithoutExtension(filename) + ".ico"
+                    Iconfile = Path.GetDirectoryName(filename) + "\" + Path.GetFileNameWithoutExtension(filename) + ".ico"
                     image.Settings.SetDefine(MagickFormat.Icon, "auto-resize", "256,128,64,48,32,16")
                     If IO.File.Exists(Iconfile) Then
                         File.SetAttributes(Iconfile, FileAttributes.Normal)
                     End If
                     image.Write(Iconfile)
                     image.Dispose()
-                    bmp.Dispose()
-                    g.Dispose()
-
                 End Using
+
+                bmp.Save(Path.GetDirectoryName(filename) + "\" + Path.GetFileNameWithoutExtension(filename) + "-MIC.png", Imaging.ImageFormat.Png)
+                bmp.Dispose()
+                g.Dispose()
 
             End If
 
@@ -320,11 +347,11 @@ Public Class Form1
                 File.SetAttributes(iniFile, FileAttributes.Normal)
                 File.Delete(iniFile)
             End If
-            Dim data As String() = {"[ViewState]", _
-                                        "Mode=", _
-                                        "Vid=", _
-                                        "FolderType=Pictures", _
-                                        "[.ShellClassInfo]", _
+            Dim data As String() = {"[ViewState]",
+                                        "Mode=",
+                                        "Vid=",
+                                        "FolderType=Pictures",
+                                        "[.ShellClassInfo]",
                                         "IconResource=" + desFile + ",0"}
             IO.File.WriteAllLines(iniFile, data)
 
@@ -351,11 +378,18 @@ Public Class Form1
             skip = False
         End If
 
+        Dim certificate As Boolean = True
+        If CheckBox3.Checked = True Then
+            certificate = True
+        Else
+            certificate = False
+        End If
 
-        CreateIcons(TextBox1.Text, TextBox2.Text, _coveroverlay, _
-                    _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight, _
-                    _posterwidth, _posterheight, _posterXpoint, _posterYpoint, _
-                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, skip)
+
+        CreateIcons(TextBox1.Text, TextBox2.Text, _coveroverlay,
+                    _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight,
+                    _posterwidth, _posterheight, _posterXpoint, _posterYpoint,
+                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, skip, certificate)
 
         System.Threading.Thread.Sleep(1000)
 
@@ -382,6 +416,7 @@ Public Class Form1
                     Or Path.GetFileName(hFile).Contains("-landscape.") _
                     Or Path.GetFileName(hFile).Contains("-poster.") _
                     Or Path.GetFileName(hFile).Contains("poster.") _
+                    Or Path.GetFileName(hFile).Contains("-MIC.png") _
                     Or Path.GetExtension(hFile) = (".nfo") _
                     Or Path.GetExtension(hFile) = (".ico") _
                     Then
@@ -460,6 +495,8 @@ Public Class Form1
 
         Button7.PerformClick()
 
+        TextBox1.Text = "D:\11\Series"
+
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -483,35 +520,57 @@ Public Class Form1
 
     End Sub
 
-    Public Shared Function Preview(ByVal filename As String, _
-                                   ByVal coveroverlay As String, _
-                                       ByVal ratingstar As String, _
-                                       ByVal ratingstarXpoint As Integer, _
-                                       ByVal ratingstarYpoint As Integer, _
-                                       ByVal ratingstarwidth As Integer, _
-                                       ByVal ratingstarheight As Integer, _
-                                       ByVal posterwidth As Integer, _
-                                       ByVal posterheight As Integer, _
-                                       ByVal posterXpoint As Integer, _
-                                       ByVal posterYpoint As Integer, _
-                                       ByVal ratingfont As Font, _
-                                       ByVal ratingfontcolor As Color, _
-                                       ByVal ratingXpoint As Integer, _
-                                       ByVal ratingYpoint As Integer, _
-                                       ByVal picturebox As PictureBox)
+    Public Shared Function Preview(ByVal filename As String,
+                                   ByVal coveroverlay As String,
+                                       ByVal ratingstar As String,
+                                       ByVal ratingstarXpoint As Integer,
+                                       ByVal ratingstarYpoint As Integer,
+                                       ByVal ratingstarwidth As Integer,
+                                       ByVal ratingstarheight As Integer,
+                                       ByVal posterwidth As Integer,
+                                       ByVal posterheight As Integer,
+                                       ByVal posterXpoint As Integer,
+                                       ByVal posterYpoint As Integer,
+                                       ByVal ratingfont As Font,
+                                       ByVal ratingfontcolor As Color,
+                                       ByVal ratingXpoint As Integer,
+                                       ByVal ratingYpoint As Integer,
+                                       ByVal picturebox As PictureBox,
+                                       ByVal cert As Boolean)
 
         Dim Img1 As Image = Image.FromFile(filename)
         Dim Img2 As Image = Image.FromFile(coveroverlay)
         Dim img3 As Image = Image.FromFile(ratingstar)
-
         Dim bmp As New Bitmap(947, 947)
         Dim g As Graphics = Graphics.FromImage(bmp)
+        Dim drawFont As New Font("Arial", 48)
+        Dim drawBrush As New SolidBrush(ratingfontcolor)
+        Dim x As Single = ratingXpoint
+        Dim y As Single = ratingYpoint
+        Dim width As Single = 947.0F
+        Dim height As Single = 947.0F
+        Dim drawRect As New RectangleF(x, y, width, height)
+        Dim drawFormat As New StringFormat With {
+            .Alignment = StringAlignment.Center
+        }
 
         Img1 = ResizeImage(Img1, New Size(posterwidth, posterheight), False)
         Img2 = ResizeImage(Img2, New Size(947, 947), False)
         img3 = ResizeImage(img3, New Size(ratingstarwidth, ratingstarheight), False)
 
         g.DrawImage(Img1, posterXpoint, posterYpoint)
+
+        ' Draw rectangle to screen.
+        Dim recBrush As New SolidBrush(Color.Navy)
+        Dim recdrawRect As New RectangleF(170, 755, 310, 120)
+        Dim recdrawBrush As New SolidBrush(Color.WhiteSmoke)
+        Dim recdrawFont As New Font("Arial", 48)
+
+        If cert = True Then
+            g.FillRectangle(recBrush, 198, 750, 240, 80)
+            g.DrawString("TV-14", recdrawFont, recdrawBrush, recdrawRect, drawFormat)
+
+        End If
         g.DrawImage(Img2, 0, 0)
         g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
 
@@ -519,24 +578,7 @@ Public Class Form1
         Dim drawString As [String] = "7.5"
 
         ' Create font and brush.
-        Dim drawFont As New Font("Arial", 48)
         drawFont = ratingfont
-        Dim drawBrush As New SolidBrush(ratingfontcolor)
-
-        ' Create rectangle for drawing.
-        Dim x As Single = ratingXpoint
-        Dim y As Single = ratingYpoint
-        Dim width As Single = 947.0F
-        Dim height As Single = 947.0F
-        Dim drawRect As New RectangleF(x, y, width, height)
-
-        ' Draw rectangle to screen.
-        ' Dim blackPen As New Pen(Color.Black)
-        ' g.DrawRectangle(blackPen, x, y, width, height)
-
-        ' Set format of string.
-        Dim drawFormat As New StringFormat
-        drawFormat.Alignment = StringAlignment.Center
 
         ' Draw string to screen.
         g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
@@ -571,10 +613,17 @@ Public Class Form1
 
         Dim testPoster As String = System.IO.Directory.GetCurrentDirectory() + "\Sample-poster.jpg"
 
-        Preview(testPoster, _coveroverlay, _
-                    _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight, _
-                    _posterwidth, _posterheight, _posterXpoint, _posterYpoint, _
-                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, PictureBox1)
+        Dim certificate As Boolean = True
+        If CheckBox3.Checked = True Then
+            certificate = True
+        Else
+            certificate = False
+        End If
+
+        Preview(testPoster, _coveroverlay,
+                    _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight,
+                    _posterwidth, _posterheight, _posterXpoint, _posterYpoint,
+                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, PictureBox1, certificate)
     End Sub
 
     Protected Overrides Function ProcessCmdKey(ByRef msg As System.Windows.Forms.Message, _

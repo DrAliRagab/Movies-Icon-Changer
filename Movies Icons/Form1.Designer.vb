@@ -37,6 +37,7 @@ Partial Class Form1
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Button7 = New System.Windows.Forms.Button()
@@ -211,6 +212,7 @@ Partial Class Form1
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.CheckBox3)
         Me.GroupBox5.Controls.Add(Me.CheckBox2)
         Me.GroupBox5.Controls.Add(Me.CheckBox1)
         Me.GroupBox5.Location = New System.Drawing.Point(6, 328)
@@ -219,6 +221,18 @@ Partial Class Form1
         Me.GroupBox5.TabIndex = 17
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Additional settings"
+        '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Checked = True
+        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox3.Location = New System.Drawing.Point(313, 19)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(191, 17)
+        Me.CheckBox3.TabIndex = 20
+        Me.CheckBox3.Text = "Add Movies/TV shows Certification"
+        Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'CheckBox2
         '
@@ -681,5 +695,5 @@ End Sub
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
     Public WithEvents CheckBox2 As System.Windows.Forms.CheckBox
     Public WithEvents CheckBox1 As System.Windows.Forms.CheckBox
-
+    Friend WithEvents CheckBox3 As CheckBox
 End Class
