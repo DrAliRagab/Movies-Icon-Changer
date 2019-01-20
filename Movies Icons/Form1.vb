@@ -73,6 +73,9 @@ Public Class Form1
         For Each ctrl As Control In FindControlRecursive(allctrl, Me, GetType(Button))
             ctrl.Enabled = False
         Next
+        For Each ctrl As Control In FindControlRecursive(allctrl, Me, GetType(CheckBox))
+            ctrl.Enabled = False
+        Next
 
         BackgroundWorker1.RunWorkerAsync()
 
@@ -192,7 +195,8 @@ Public Class Form1
                                        ByVal ratingXpoint As Integer,
                                        ByVal ratingYpoint As Integer,
                                        ByVal skip As Boolean,
-                                       ByVal cert As Boolean)
+                                       ByVal cert As Boolean,
+                                       ByVal AddStar As Boolean)
 
         Dim directory = MovieFolder
         Dim dList As New ArrayList
@@ -313,8 +317,11 @@ Public Class Form1
                 End If
 
                 g.DrawImage(Img2, 0, 0)
-                g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
-                g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
+
+                If AddStar = True And Not drawString = "" Then
+                    g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
+                    g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
+                End If
 
                 Using image As New MagickImage(bmp)
                     Dim Iconfile As String
@@ -385,11 +392,18 @@ Public Class Form1
             certificate = False
         End If
 
+        Dim AddStar As Boolean = True
+        If CheckBox4.Checked = True Then
+            AddStar = True
+        Else
+            AddStar = False
+        End If
+
 
         CreateIcons(TextBox1.Text, TextBox2.Text, _coveroverlay,
                     _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight,
                     _posterwidth, _posterheight, _posterXpoint, _posterYpoint,
-                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, skip, certificate)
+                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, skip, certificate, AddStar)
 
         System.Threading.Thread.Sleep(1000)
 
@@ -444,6 +458,9 @@ Public Class Form1
             ctrl.Enabled = True
         Next
         For Each ctrl As Control In FindControlRecursive(allctrl, Me, GetType(Button))
+            ctrl.Enabled = True
+        Next
+        For Each ctrl As Control In FindControlRecursive(allctrl, Me, GetType(CheckBox))
             ctrl.Enabled = True
         Next
 
@@ -536,7 +553,8 @@ Public Class Form1
                                        ByVal ratingXpoint As Integer,
                                        ByVal ratingYpoint As Integer,
                                        ByVal picturebox As PictureBox,
-                                       ByVal cert As Boolean)
+                                       ByVal cert As Boolean,
+                                       ByVal Addstar As Boolean)
 
         Dim Img1 As Image = Image.FromFile(filename)
         Dim Img2 As Image = Image.FromFile(coveroverlay)
@@ -572,16 +590,13 @@ Public Class Form1
 
         End If
         g.DrawImage(Img2, 0, 0)
-        g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
+        If Addstar = True Then
+            g.DrawImage(img3, ratingstarXpoint, ratingstarYpoint)
+            Dim drawString As [String] = "7.5"
+            drawFont = ratingfont
+            g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
+        End If
 
-        'Get Movie rating
-        Dim drawString As [String] = "7.5"
-
-        ' Create font and brush.
-        drawFont = ratingfont
-
-        ' Draw string to screen.
-        g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat)
         bmp = ResizeImage(bmp, New Size(300, 300))
 
         picturebox.Image = bmp
@@ -620,10 +635,17 @@ Public Class Form1
             certificate = False
         End If
 
+        Dim Addstar As Boolean = True
+        If CheckBox4.Checked = True Then
+            Addstar = True
+        Else
+            Addstar = False
+        End If
+
         Preview(testPoster, _coveroverlay,
                     _ratingstar, _ratingstarXpoint, _ratingstarYpoint, _ratingstarwidth, _ratingstarheight,
                     _posterwidth, _posterheight, _posterXpoint, _posterYpoint,
-                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, PictureBox1, certificate)
+                    _ratingFont, _ratingFontcolor, _ratingXpoint, _ratingYpoint, PictureBox1, certificate, Addstar)
     End Sub
 
     Protected Overrides Function ProcessCmdKey(ByRef msg As System.Windows.Forms.Message, _
@@ -643,6 +665,7 @@ Public Class Form1
             Button8.Text = "Hide settings"
             Panel2.Visible = True
             Me.Height = 574
+            Button7.PerformClick()
 
         ElseIf Button8.Text = "Hide settings" Then
             Button8.Text = "Show settings"
@@ -681,4 +704,11 @@ Public Class Form1
         End Try
     End Function
 
+    Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
+        Button7.PerformClick()
+    End Sub
+
+    Private Sub CheckBox4_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox4.CheckedChanged
+        Button7.PerformClick()
+    End Sub
 End Class
