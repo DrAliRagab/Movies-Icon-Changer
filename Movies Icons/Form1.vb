@@ -310,6 +310,10 @@ Public Class Form1
                 Dim recdrawBrush As New SolidBrush(Color.WhiteSmoke)
                 Dim recdrawFont As New Font("Arial", 48)
 
+                If Certificate.StartsWith("Rated ") Then
+                    Certificate = Certificate.Remove(0, 6)
+                End If
+
                 If cert = True And Not Certificate = "" Then
                     g.FillRectangle(recBrush, 198, 750, 240, 80)
                     g.DrawString(Certificate, recdrawFont, recdrawBrush, recdrawRect, drawFormat)
