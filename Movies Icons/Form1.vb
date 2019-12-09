@@ -241,13 +241,13 @@ Public Class Form1
                 Dim Certificate As [String] = ""
                 For Each nfoFile As String In IO.Directory.GetFiles(Path.GetDirectoryName(filename), "*.nfo", SearchOption.TopDirectoryOnly)
 
-                    Dim reader As New StreamReader(nfoFile, System.Text.Encoding.Default)
+                    Dim reader1 As New StreamReader(nfoFile, System.Text.Encoding.Default)
                     Dim reader2 As New StreamReader(nfoFile, System.Text.Encoding.Default)
                     Dim line As String = Nothing
 
-                    While (reader.Peek() <> -1)
-                        line = reader.ReadLine()
-                        If line.Contains("<rating>") Then
+                    While (reader1.Peek() <> -1)
+                        line = reader1.ReadLine()
+                        If line.Contains("<value>") Then
                             Dim input As String = line
                             Dim numbers As System.Text.StringBuilder = New System.Text.StringBuilder()
                             For Each c As Char In input
@@ -257,10 +257,7 @@ Public Class Form1
                             Next
                             drawString = numbers.ToString
                         End If
-                    End While
 
-                    While (reader2.Peek() <> -1)
-                        line = reader2.ReadLine()
                         If line.Contains("<mpaa>") Then
                             Dim input As String = line
 
@@ -275,7 +272,27 @@ Public Class Form1
                                 Certificate = res
                             End If
                         End If
+
                     End While
+
+                    If Not IsNumeric(drawString) Then     'may be it's a TVshow
+
+                        While (reader2.Peek() <> -1)
+                            line = reader2.ReadLine()
+                            If line.Contains("<rating>") Then
+                                Dim input As String = line
+                                Dim numbers As System.Text.StringBuilder = New System.Text.StringBuilder()
+                                For Each c As Char In input
+                                    If (Char.IsNumber(c)) Or (c = ".") Then
+                                        numbers.Append(c)
+                                    End If
+                                Next
+                                drawString = numbers.ToString
+                            End If
+
+                        End While
+
+                    End If
 
                 Next
 
@@ -515,8 +532,7 @@ Public Class Form1
         _ratingFontcolor = FontDialog1.Color
 
         Button7.PerformClick()
-
-        TextBox1.Text = "D:\11\Series"
+        Button8.PerformClick()
 
     End Sub
 
