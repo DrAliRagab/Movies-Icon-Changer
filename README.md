@@ -42,7 +42,9 @@ to this..
 
 ## Download
 
-You can download the **latest releases** from [HERE](https://github.com/DrAliRagab/Movies-Icon-Changer/releases) 
+You can download the **latest release** from [HERE](https://github.com/DrAliRagab/Movies-Icon-Changer/releases) 
+
+You  can download both **Movies-Icon-Changer** and **tinyMediaManager** from [here](https://www.dropbox.com/s/hntjvbrq0sq48ii/IconChanger.zip?dl=0 "here") - [[VirusTotal]](https://www.virustotal.com/gui/file/9c0d79cc7719dd1c50bc2abb49bd85d64df217cd06dd835431a0795c862ec9c5/detection)
 
 
 ## COPYRIGHTS
