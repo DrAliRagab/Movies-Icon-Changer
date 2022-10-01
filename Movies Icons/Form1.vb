@@ -355,7 +355,13 @@ Public Class Form1
                     image.Dispose()
                 End Using
 
-                bmp.Save(Path.GetDirectoryName(filename) + "\" + Path.GetFileNameWithoutExtension(filename) + "-MIC.png", Imaging.ImageFormat.Png)
+                'Try saving edited image as folder.jpg to expand compatibility to some network folders and NAS drives
+                Try
+                    'wrapped in try/catch block as sometimes saving the file to jpg can throw an exception
+                    bmp.Save(Path.GetDirectoryName(filename) + "\" + "folder.jpg", Imaging.ImageFormat.Jpeg)
+                Catch ex As Exception
+                    bmp.Save(Path.GetDirectoryName(filename) + "\" + Path.GetFileNameWithoutExtension(filename) + "-MIC.png", Imaging.ImageFormat.Png)
+                End Try
                 bmp.Dispose()
                 g.Dispose()
 
@@ -441,6 +447,7 @@ Public Class Form1
                 If Path.GetFileName(hFile) = "clearart.png" _
                     Or Path.GetFileName(hFile) = "disc.png" _
                     Or Path.GetFileName(hFile) = "logo.png" _
+                    Or Path.GetFileName(hFile) = "folder.jpg" _
                     Or Path.GetFileName(hFile) = "desktop.ini" _
                     Or Path.GetFileName(hFile).Contains("-banner.") _
                     Or Path.GetFileName(hFile).Contains("thumb.") _
@@ -454,9 +461,17 @@ Public Class Form1
                     Or Path.GetFileName(hFile).Contains("-MIC.png") _
                     Or Path.GetExtension(hFile) = (".nfo") _
                     Or Path.GetExtension(hFile) = (".ico") _
+                    Or Path.GetExtension(hFile) = (".srt") _
+                    Or Path.GetExtension(hFile) = (".ssa") _
                     Then
 
                     File.SetAttributes(hFile, FileAttributes.Hidden)
+                End If
+                'delete legacy file as it is replaced by folder.jpg
+                If Path.GetFileName(hFile).Contains("-MIC.png") _
+                    Then
+
+                    File.Delete(hFile)
                 End If
 
             Next
