@@ -172,7 +172,7 @@ Partial Class Form1
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(100, 20)
         Me.TextBox2.TabIndex = 13
-        Me.TextBox2.Text = "*-poster.*"
+        Me.TextBox2.Text = "poster.*"
         '
         'Label4
         '
@@ -239,6 +239,8 @@ Partial Class Form1
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Checked = True
+        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox3.Location = New System.Drawing.Point(313, 19)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(192, 17)
@@ -249,8 +251,6 @@ Partial Class Form1
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Checked = True
-        Me.CheckBox2.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox2.Location = New System.Drawing.Point(6, 42)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(114, 17)
