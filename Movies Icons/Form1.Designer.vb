@@ -239,6 +239,8 @@ Partial Class Form1
         'CheckBox3
         '
         Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Checked = True
+        Me.CheckBox3.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox3.Location = New System.Drawing.Point(313, 19)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(192, 17)

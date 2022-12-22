@@ -165,7 +165,7 @@ Public Class Form1
                         line2 = "IconResource=" + IO.Path.GetFileName(path2) + ",0"
                         List(x) = line2
 
-                        IO.File.WriteAllLines(fName, List, Encoding.Default)
+                        IO.File.WriteAllLines(fName, List, Encoding.UTF8)
                         File.SetAttributes(fName, FileAttributes.System)
                         File.SetAttributes(fName, FileAttributes.Hidden)
                     Catch ex As Exception
@@ -329,6 +329,16 @@ Public Class Form1
 
                 If Certificate.StartsWith("Rated ") Then
                     Certificate = Certificate.Remove(0, 6)
+                End If
+
+                ' remove any charachters after slash: US:G / US:Rated G => US:G
+                If Certificate.Contains("/") Then
+                    Certificate = Certificate.Substring(0, Certificate.IndexOf("/"))
+                End If
+
+                ' make sure certificate is not longer than 4 chars
+                If Certificate.Length > 4 Then
+                    Certificate = Certificate.Substring(0, 4)
                 End If
 
                 If cert = True And Not Certificate = "" Then
